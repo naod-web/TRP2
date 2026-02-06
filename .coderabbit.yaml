@@ -1,0 +1,41 @@
+# .coderabbit.yaml
+reviews:
+  request_changes: false
+  # Only post review if there are actual suggestions
+
+rules:
+  - guideline: "Every non-trivial change must reference at least one spec file in specs/"
+    pattern: ".*"
+    message: "Missing spec reference. Please link to the relevant file in specs/ (e.g. technical.md, functional.md)"
+
+  - guideline: "No direct API calls to social platforms, image/video generation, or wallets"
+    pattern: "(twitter|instagram|tiktok|midjourney|runway|coinbase|web3|eth_|usdc_)"
+    exclude_patterns:
+      - "mcp-server"
+      - "tests/"
+    message: "Direct external API usage detected. All external actions must go through MCP."
+
+  - guideline: "Wallet keys, seeds, or credentials must never appear in code"
+    pattern: "(private_key|seed_phrase|API_KEY|secret|token)"
+    message: "Potential credential exposure. Use environment variables + secrets manager."
+
+  - guideline: "New task types or schemas must update specs/technical.md"
+    pattern: "task_type.*enum"
+    message: "Task type or schema change detected. Please update specs/technical.md first."
+
+  - guideline: "Avoid bypassing Judge validation step"
+    pattern: "(publish|post|reply|send_transaction).*without.*judge"
+    message: "Publishing or transaction actions should pass through Judge validation."
+
+chat:
+  auto_review:
+    enabled: true
+    exclude:
+      - "tests/"
+      - "docs/"
+      - "*.md"
+
+reviewer:
+  request_changes_on:
+    - security
+    - spec-violation

@@ -1,0 +1,23 @@
+﻿[project]
+name = "chimera-project"
+version = "0.1.0"
+description = "Autonomous Influencer System"
+requires-python = ">=3.12"
+
+dependencies = [
+    "requests",
+    "yt-dlp",
+    "speechrecognition",
+    "pydub",
+    "pymongo",
+    "pytest",
+    "python-dotenv",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+addopts = "-v"
+testpaths = ["tests"]
